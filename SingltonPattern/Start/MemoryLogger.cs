@@ -8,14 +8,16 @@ namespace SingltonPattern.Start
 {
     internal class MemoryLogger
     {
+       
         private static readonly object _Lock = new object();
+        private MemoryLogger _instance = new MemoryLogger(); //Eager loading..
         private int _InfoCount;
         private int _WarnCount;
         private int _ErrorCount;
 
         private List<LogMessage> _Logs = new List<LogMessage>();
         public IReadOnlyCollection<LogMessage> Logs => _Logs;
-        private MemoryLogger _instance = null;
+       
 
         private MemoryLogger()
         {
@@ -26,16 +28,11 @@ namespace SingltonPattern.Start
         {
             get
             {
-                lock (_Lock)
-                {
-
-                    if (_instance == null)
-                    {
-                        _instance = new MemoryLogger();
-                    }
-                }
                 return _instance;
+
             }
+               
+            
         }
         private void Log(string message, LogType logType) =>
             _Logs.Add(new LogMessage
