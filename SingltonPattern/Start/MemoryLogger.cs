@@ -8,6 +8,7 @@ namespace SingltonPattern.Start
 {
     internal class MemoryLogger
     {
+        private static readonly object _Lock = new object();
         private int _InfoCount;
         private int _WarnCount;
         private int _ErrorCount;
@@ -25,9 +26,13 @@ namespace SingltonPattern.Start
         {
             get
             {
-                if (_instance == null)
+                lock (_Lock)
                 {
-                    _instance = new MemoryLogger();
+
+                    if (_instance == null)
+                    {
+                        _instance = new MemoryLogger();
+                    }
                 }
                 return _instance;
             }
