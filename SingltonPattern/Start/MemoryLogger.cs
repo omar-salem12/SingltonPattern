@@ -9,8 +9,8 @@ namespace SingltonPattern.Start
     internal class MemoryLogger
     {
        
-        private static readonly object _Lock = new object();
-        private MemoryLogger _instance = new MemoryLogger(); //Eager loading..
+     
+        private Lazy<MemoryLogger> _instance = new Lazy<MemoryLogger>(()=> new MemoryLogger()); //Eager loading..
         private int _InfoCount;
         private int _WarnCount;
         private int _ErrorCount;
@@ -28,7 +28,7 @@ namespace SingltonPattern.Start
         {
             get
             {
-                return _instance;
+                return _instance.Value;
 
             }
                
